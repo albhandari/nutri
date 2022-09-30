@@ -1,0 +1,4 @@
+#ignore pycahce directory
+app/__pycache__
+#ignore .pyc files
+*.pyc
