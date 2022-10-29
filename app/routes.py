@@ -15,7 +15,7 @@ from app.createAccount import CreateUser
 
 #from app.user_rate_form import RateForm
 
-#from app.delete_user import DeleteUser
+from app.delete_user import DeleteUser
 
 #from app.addToCart import addToCart, sessionCart, checkoutForm
 
@@ -52,6 +52,12 @@ def login():
  return render_template('login.html', login_form = login_form)
 
 #Justin
+@appObj.route('/logout') #as of right now only included on home.html
+def logout():
+ logout_user() #from flask_login
+ return redirect(url_for('login'))
+
+#Justin
 @appObj.route('/createAccount', methods = ['GET', 'POST'])
 def createAccount():
   accountForm = CreateUser()
@@ -72,3 +78,29 @@ def createAccount():
     else:
      flash('That username has been taken. Please try again')
   return render_template('createAccount.html', accountForm = accountForm)
+
+#Justin
+@appObj.route('/deleteUser', methods = ['GET', 'POST'])
+@login_required
+#ADD DELETING MEALS, WORKOUTS 
+def deleteAccount():
+ account_form = DeleteUser()
+ if account_form.validate_on_submit():
+  user = User.query.filter_by(username = account_form.username.data).first()
+  if user != None:
+   if user.check_password(account_form.password.data) == True:
+    u = User.query.filter_by(username = account_form.username.data)
+    db.session.delete(user)
+    db.session.commit()
+    flash("Your account has been deleted successfully")
+    return redirect('/') #after deleting account, redirect to login page
+   else:
+    flash("Please enter the correct password")
+  else:
+   flash("Please enter the correct username")
+ return render_template('deleteUser.html', accountForm = account_form)
+
+#Justin
+@appObj.route('/home') #home page
+def home():
+ return render_template('home.html')
