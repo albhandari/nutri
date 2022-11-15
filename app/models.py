@@ -6,7 +6,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, date
 
 #User table in the database
-#A user has an id, username, email, and password hash
 class User(UserMixin, db.Model):
  id = db.Column(db.Integer, primary_key = True)
  username = db.Column(db.String(16))
@@ -15,6 +14,8 @@ class User(UserMixin, db.Model):
  weight = db.Column(db.Float)
  fitness_goal = db.Column(db.String(1024))
  user_bio = db.Column(db.String(1024))
+ meals = db.relationship('Meal')
+ workouts = db.relationship('Workout')
 
  #set user password
  def set_password(self, password):
@@ -29,9 +30,9 @@ class User(UserMixin, db.Model):
 class Meal(db.Model):
  id = db.Column(db.Integer, primary_key = True)
  name = db.Column(db.String(32))
- meal_type = db.Column(db.String(16))
- meal_ingredients = db.Column(db.String(1024))
- time_to_eat = db.Column(db.DateTime(timezone = True))
+ type = db.Column(db.String(16))
+ meal_item_names = db.Column(db.String(1024))
+ time_to_eat = db.Column(db.Date, default = date.today())
  creator_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
 @login.user_loader
@@ -45,3 +46,4 @@ class Workout(db.Model):
  repititions = db.Column(db.Integer)
  time_to_do = db.Column(db.Date, default = date.today())
  creator_id = db.Column(db.Integer, db.ForeignKey(User.id))
+
