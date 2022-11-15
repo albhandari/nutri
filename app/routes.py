@@ -6,25 +6,19 @@ from requests import request
 from app import appObj
 from app.user_login import LoginUser
 
+from app.create_account import CreateUser
+from app.create_workout import CreateWorkout
 
-#from app.item_search import ItemSearch, SellerSearch
-#from app.item_sale import SellItem
-from app.createAccount import CreateUser
-
-#from app.addToCart import addToCart, sessionCart, checkoutForm
-
-#from app.user_rate_form import RateForm
+from datetime import date
 
 from app.delete_user import DeleteUser
-
-#from app.addToCart import addToCart, sessionCart, checkoutForm
 
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
 from app import db
-from app.models import User
+from app.models import User, Workout
 
 from flask_login import login_user
 from flask_login import logout_user
@@ -68,7 +62,9 @@ def createAccount():
       user.username=accountForm.username.data
       user.email=accountForm.email.data
       user.set_password(accountForm.password.data)
-
+      user.weight = accountForm.weight.data
+      user.fitness_goal = accountForm.fitness_goal.data
+      user.user_bio = accountForm.user_bio.data
       #add to the database
       db.session.add(user)
       db.session.commit()
@@ -77,7 +73,7 @@ def createAccount():
       return redirect('/')
     else:
      flash('That username has been taken. Please try again')
-  return render_template('createAccount.html', accountForm = accountForm)
+  return render_template('create_account.html', accountForm = accountForm)
 
 #Justin
 @appObj.route('/deleteUser', methods = ['GET', 'POST'])
@@ -98,9 +94,38 @@ def deleteAccount():
     flash("Please enter the correct password")
   else:
    flash("Please enter the correct username")
- return render_template('deleteUser.html', accountForm = account_form)
+ return render_template('delete_user.html', accountForm = account_form)
 
 #Justin
 @appObj.route('/home') #home page
+@login_required
 def home():
  return render_template('home.html')
+
+
+#Justin
+@appObj.route('/createWorkout', methods = ['GET', 'POST'])
+@login_required
+def createWorkout():
+ workout_form = CreateWorkout()
+ if workout_form.validate_on_submit():
+  creator = current_user
+  workout = Workout()
+  workout.name = workout_form.workout_name.data
+  workout.exercise = workout_form.exercise.data
+  workout.repititions = workout_form.repititions.data
+  workout_day = workout_form.time_to_do.data #date from datetime type
+
+  year = workout_day.year #get year
+  month = workout_day.month #get month
+  day = workout_day.day #get day
+  workout.time_to_do = date(year, month, day) #set the day in the database
+
+  workout.creator_id = creator.id #current user id
+
+  #add to the database
+  db.session.add(workout)
+  db.session.commit()
+
+  flash('Your workout has been created successfully')
+ return render_template('create_workout.html', workout_form = workout_form)
