@@ -1,0 +1,84 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin=>
+
+
+
+    <title>YoFit - Create Meal</title>
+  </head>
+
+   {% with messages = get_flashed_messages() %}
+   {% if messages %}
+    {% for message in messages %}
+     <p> {{message}} </p>
+    {% endfor %}
+   {% endif %}
+  {% endwith %}
+
+  <body style="background: #c6c6c6">
+    <h2> <b> <u> yoFit - Create Meal</h2> </b> </u>
+    <form action="" method="post" nonvalidate >
+            {{meal_form.csrf_token}}
+            <p>
+            {{meal_form.meal_name.label}}<br>
+            {{meal_form.meal_name(size = 32)}}</br>
+            
+            <label for="meal_type">Choose a meal type: </label>
+            <select name = "meal_type">
+            <option value = "Breakfast"> Breakfast</option>
+            <option value = "Lunch"> Lunch</option>
+            <option value = "Dinner"> Dinner</option>
+            <option value = "Snack"> Snack</option>
+            </select>
+            </br>
+            </label>
+
+            {{meal_form.meal_item_names.label}}
+            {{meal_form.meal_item_names()}} <br>
+            <button id="add-food-field" type="button">Add another food</button> <br>
+
+            {{meal_form.time_to_eat.label}} <br>
+            {{meal_form.time_to_eat()}} </br>
+            </p>
+            <p>
+            {{meal_form.submit}}
+            </p>
+        </form>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"> </script>
+
+  <!-- From https://sagarkaurav.hashnode.dev/flask-wtf-forms-dynamic-fields-using-javascript-->
+  <script>
+    window.onload = function() {
+        let addFoodFieldBtn = document.getElementById('add-food-field');
+        addFoodFieldBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            let allFoodFieldWrapper = document.getElementById('meal_item_names');
+            let allFoodField = allFoodFieldWrapper.getElementsByTagName('input');
+            if(allFoodField.length > 9) {
+                alert('You can have only 10 foods');
+                return;
+            }
+            let foodInputIds = []
+            for(let i = 0; i < allFoodField.length; i++) {
+                foodInputIds.push(parseInt(allFoodField[i].name.split('-')[1]));
+            }
+            let newFieldName = `meal_item_names-${Math.max(...foodInputIds) + 1}`;
+            allFoodFieldWrapper.insertAdjacentHTML('beforeend',`
+            <li> <label for="${newFieldName}">Food Name</label> <input id="${newFieldName}" name="${newFieldName}" type="text" value=""></li>
+            `);
+        });
+    }
+</script>
+
+  </body>
+
+
+</html>

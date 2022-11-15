@@ -8,6 +8,7 @@ from app.user_login import LoginUser
 
 from app.create_account import CreateUser
 from app.create_workout import CreateWorkout
+from app.create_meal import CreateMeal
 
 from datetime import date
 
@@ -18,7 +19,9 @@ from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
 from app import db
-from app.models import User, Workout
+from app.models import User, Workout, Meal
+
+from app.add_to_meal import MealAdd
 
 from flask_login import login_user
 from flask_login import logout_user
@@ -108,6 +111,7 @@ def home():
 @login_required
 def createWorkout():
  workout_form = CreateWorkout()
+
  if workout_form.validate_on_submit():
   creator = current_user
   workout = Workout()
@@ -129,3 +133,34 @@ def createWorkout():
 
   flash('Your workout has been created successfully')
  return render_template('create_workout.html', workout_form = workout_form)
+
+
+#Justin
+@appObj.route('/createMeal', methods = ['GET', 'POST'])
+@login_required
+def createMeal():
+ meal_form = CreateMeal()
+
+ if meal_form.validate_on_submit():
+  creator = current_user
+  meal = Meal()
+  meal.name = meal_form.meal_name.data
+  meal.type = request.form.get('meal_type') #get meal form from the html select attribute
+  meal_item_names = meal_form.meal_item_names.data #list of foods
+  meal.meal_item_names = ", ".join(meal_item_names) #convert list to string for db storage
+  meal_day = meal_form.time_to_eat.data #date from datetime type
+
+  year = meal_day.year #get year
+  month = meal_day.month #get month
+  day = meal_day.day #get day
+  meal.time_to_eat = date(year, month, day) #set the day in the database
+
+  meal.creator_id = creator.id #current user id
+
+  #add to the database
+  db.session.add(meal)
+  db.session.commit()
+
+  flash('Your meal has been created successfully')
+
+ return render_template('create_meal.html', meal_form = meal_form)

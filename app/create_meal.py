@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, PasswordField, FloatField
+from wtforms import StringField, FieldList, SubmitField, FormField
 from wtforms.validators import DataRequired, Length
+from wtforms.fields import DateField
+
+from datetime import date
 
 class CreateMeal(FlaskForm):
-    username = StringField('Username', validators = [DataRequired(),Length(min=3, max=32)], render_kw={"placeholder": "Ex: yofit, between 3 and 32 characters"})
-    email = StringField ('Email', validators = [DataRequired()], render_kw={"placeholder": "Ex: yofit@gmail.com"})
-    password = PasswordField( 'Password', validators = [DataRequired(), Length(min=4)], render_kw={"placeholder": "Minumum 4 characters"})
-    weight = FloatField('Weight', validators = [DataRequired()], render_kw={"placeholder": "Ex: 100.5"})
-    user_bio = StringField('Bio / Description', validators = [DataRequired(), Length(min = 3, max = 1024)], render_kw={"placeholder": "Tell us about yourself!"})
-    fitness_goal = StringField('Fitness Goal', validators = [DataRequired(), Length(min = 3, max = 1024)], render_kw={"placeholder": "Tell us your fitness goal!"})
-    submit = SubmitField('Create Account')
+ meal_name = StringField('Meal Name', validators = [DataRequired(), Length(min = 3, max = 32)])
+ meal_item_names = FieldList(StringField('Food Name', validators = [DataRequired(), Length(min = 3, max = 32)]), min_entries = 1, max_entries = 10)
+ time_to_eat = DateField('Time to eat meal', format = '%Y-%m-%d', validators = [DataRequired()])
+ submit = SubmitField('Create Meal')
