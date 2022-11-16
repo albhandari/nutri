@@ -3,7 +3,7 @@ from app import login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from datetime import datetime, date
+from datetime import datetime, date, time
 
 #User table in the database
 class User(UserMixin, db.Model):
@@ -33,6 +33,7 @@ class Meal(db.Model):
  type = db.Column(db.String(16))
  meal_item_names = db.Column(db.String(1024))
  time_to_eat = db.Column(db.Date, default = date.today())
+ time_meal = db.Column(db.Time, default = datetime.now())
  creator_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
 @login.user_loader
@@ -45,5 +46,5 @@ class Workout(db.Model):
  exercise = db.Column(db.String(32))
  repititions = db.Column(db.Integer)
  time_to_do = db.Column(db.Date, default = date.today())
+ time_workout = db.Column(db.Time, default = datetime.now())
  creator_id = db.Column(db.Integer, db.ForeignKey(User.id))
-

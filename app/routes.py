@@ -10,7 +10,7 @@ from app.create_account import CreateUser
 from app.create_workout import CreateWorkout
 from app.create_meal import CreateMeal
 
-from datetime import date
+from datetime import date, time
 
 from app.delete_user import DeleteUser
 
@@ -89,6 +89,20 @@ def deleteAccount():
   if user != None:
    if user.check_password(account_form.password.data) == True:
     u = User.query.filter_by(username = account_form.username.data)
+
+    #delete meals the user created
+    meals = Meal.query.filter_by(creator_id = user.id).all()
+    for m in meals:
+     db.session.delete(m)
+     db.session.commit()
+
+    #delete workouts the user created
+    workouts = Workout.query.filter_by(creator_id = user.id).all()
+    for w in workouts:
+     db.session.delete(w)
+     db.session.commit()
+
+    #delete user
     db.session.delete(user)
     db.session.commit()
     flash("Your account has been deleted successfully")
@@ -119,11 +133,17 @@ def createWorkout():
   workout.exercise = workout_form.exercise.data
   workout.repititions = workout_form.repititions.data
   workout_day = workout_form.time_to_do.data #date from datetime type
+  workout_time = workout_form.time.data #time 
+
 
   year = workout_day.year #get year
   month = workout_day.month #get month
   day = workout_day.day #get day
   workout.time_to_do = date(year, month, day) #set the day in the database
+
+  hour = workout_time.hour
+  minute = workout_time.minute
+  workout.time_workout = time(hour, minute)
 
   workout.creator_id = creator.id #current user id
 
@@ -149,11 +169,16 @@ def createMeal():
   meal_item_names = meal_form.meal_item_names.data #list of foods
   meal.meal_item_names = ", ".join(meal_item_names) #convert list to string for db storage
   meal_day = meal_form.time_to_eat.data #date from datetime type
+  meal_time = meal_form.time.data
 
   year = meal_day.year #get year
   month = meal_day.month #get month
   day = meal_day.day #get day
   meal.time_to_eat = date(year, month, day) #set the day in the database
+
+  hour = meal_time.hour
+  minute = meal_time.minute
+  meal.time_meal = time(hour, minute)
 
   meal.creator_id = creator.id #current user id
 
