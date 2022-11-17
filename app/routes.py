@@ -1,8 +1,7 @@
 from crypt import methods
 from wsgiref.util import request_uri
-from bleach import ALLOWED_ATTRIBUTES
 
-from requests import request
+
 from app import appObj
 from app.user_login import LoginUser
 
@@ -189,3 +188,8 @@ def createMeal():
   flash('Your meal has been created successfully')
 
  return render_template('create_meal.html', meal_form = meal_form)
+
+
+@appObj.route('/testing1')
+def testing1():
+  return render_template('testing.html');
