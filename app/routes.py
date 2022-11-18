@@ -122,7 +122,7 @@ def home():
 #Justin
 @appObj.route('/createWorkout', methods = ['GET', 'POST'])
 @login_required
-def createWorkout():
+def create_workout():
  workout_form = CreateWorkout()
 
  if workout_form.validate_on_submit():
@@ -157,7 +157,7 @@ def createWorkout():
 #Justin
 @appObj.route('/createMeal', methods = ['GET', 'POST'])
 @login_required
-def createMeal():
+def create_meal():
  meal_form = CreateMeal()
 
  if meal_form.validate_on_submit():
@@ -184,11 +184,76 @@ def createMeal():
   #add to the database
   db.session.add(meal)
   db.session.commit()
-
-  flash('Your meal has been created successfully')
-
+  flash('Your meal has been created successfully. Go to "Edit Meal" if you want to add nutritional information')
  return render_template('create_meal.html', meal_form = meal_form)
 
+#Justin
+@appObj.route('/viewMeals')
+@login_required
+def view_meals():
+ user = current_user
+ all_meals = Meal.query.filter_by(creator_id = user.id).all()
+ return render_template('view_meals.html', all_meals = all_meals)
+
+
+#Justin
+@appObj.route('/viewWorkouts')
+@login_required
+def view_workouts():
+ user = current_user
+ all_workouts = Workout.query.filter_by(creator_id = user.id).all()
+ return render_template('view_workouts.html', all_workouts = all_workouts)
+
+#Justin
+@appObj.route('/<workoutID>', methods = ["GET", "POST"])
+@login_required
+def edit_workout(workoutID):
+ workout = Workout.query.filter_by(id = workoutID).first()
+ workout_form = CreateWorkout()
+
+ #make and save edits
+ if workout_form.validate_on_submit():
+  db.session.delete(workout) #replacing old workout
+  creator = current_user
+  workout.name = workout_form.workout_name.data
+  workout.exercise = workout_form.exercise.data
+  workout.repititions = workout_form.repititions.data
+  workout_day = workout_form.time_to_do.data #date from datetime type
+  workout_time = workout_form.time.data #time 
+  
+
+  year = workout_day.year #get year
+  month = workout_day.month #get month
+  day = workout_day.day #get day
+  workout.time_to_do = date(year, month, day) #set the day in the database
+
+  hour = workout_time.hour
+  minute = workout_time.minute
+  workout.time_workout = time(hour, minute)
+
+  workout.creator_id = creator.id #current user id
+  #add to the database
+  db.session.add(workout)
+  db.session.commit()
+  flash('Your workout has been saved successfully')
+
+ original_workout_day = workout.time_to_do
+ original_workout_year = original_workout_day.year
+ original_workout_month = original_workout_day.month
+ original_workout_number_day = original_workout_day.day
+
+ original_workout_time = workout.time_workout
+ original_workout_hour = original_workout_time.hour
+ original_workout_minute = original_workout_time.minute
+
+ #create workout form whose values are already the workout values
+ workout_form.workout_name.data = workout.name
+ workout_form.exercise.data = workout.exercise
+ workout_form.repititions.data = workout.repititions
+ workout_form.time_to_do.data = date(original_workout_year, original_workout_month, original_workout_number_day)
+ workout_form.time.data = time(original_workout_hour, original_workout_minute)
+ 
+ return render_template('edit_workout.html', workout_form = workout_form)
 
 @appObj.route('/testing1')
 def testing1():

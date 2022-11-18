@@ -11,4 +11,4 @@ class CreateWorkout(FlaskForm):
     repititions = IntegerField('Number of Repititions', validators = [DataRequired()])
     time_to_do = DateField('Day to do workout', format = '%Y-%m-%d', validators = [DataRequired()])
     time = TimeField('Time to do workout', format = '%H:%M', validators = [DataRequired()])
-    submit = SubmitField('Create Workout')
+    submit = SubmitField('Save Workout')
