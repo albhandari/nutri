@@ -24,7 +24,7 @@
     <h2> <b> <u> yoFit - Edit meals</h2> </b> </u>
      {%for meal in all_meals %}
        <p> {{meal.name}} </p>
-       <p> <a class="btn btn-outline-dark" href={{meal.id}} role="button">Edit </a> </p>
+       <p> <a class="btn btn-outline-dark" href="/viewMeals/{{meal.name}}" role="button">Edit </a> </p>
      {% endfor %}
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

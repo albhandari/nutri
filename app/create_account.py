@@ -9,4 +9,4 @@ class CreateUser(FlaskForm):
     weight = FloatField('Weight', validators = [DataRequired()], render_kw={"placeholder": "Ex: 100.5"})
     user_bio = StringField('Bio / Description', validators = [DataRequired(), Length(min = 3, max = 1024)], render_kw={"placeholder": "Tell us about yourself!"})
     fitness_goal = StringField('Fitness Goal', validators = [DataRequired(), Length(min = 3, max = 1024)], render_kw={"placeholder": "Tell us your fitness goal!"})
-    submit = SubmitField('Create Account')
+    submit = SubmitField('Save Information')

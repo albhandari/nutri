@@ -35,6 +35,10 @@ class Meal(db.Model):
  time_to_eat = db.Column(db.Date, default = date.today())
  time_meal = db.Column(db.Time, default = datetime.now())
  creator_id = db.Column(db.Integer, db.ForeignKey(User.id))
+ meal_calories = db.Column(db.Float)
+ meal_carbs = db.Column(db.Float)
+ meal_protien = db.Column(db.Float)
+ meal_fat = db.Column(db.Float)
 
 @login.user_loader
 def load_user(id):
