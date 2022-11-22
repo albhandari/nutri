@@ -8,6 +8,8 @@ from app.user_login import LoginUser
 from app.create_account import CreateUser
 from app.create_workout import CreateWorkout
 from app.create_meal import CreateMeal
+from app.edit_meal import EditMeal
+
 from app.add_nutrition import AddNutrition, DuplicateNutrition
 
 from wtforms import SubmitField, FieldList
@@ -83,7 +85,6 @@ def createAccount():
 #Justin
 @appObj.route('/deleteUser', methods = ['GET', 'POST'])
 @login_required
-#ADD DELETING MEALS, WORKOUTS 
 def deleteAccount():
  account_form = DeleteUser()
  if account_form.validate_on_submit():
@@ -152,30 +153,35 @@ def create_workout():
 
  if workout_form.validate_on_submit():
   creator = current_user
-  workout = Workout()
-  workout.name = workout_form.workout_name.data
-  workout.exercise = workout_form.exercise.data
-  workout.repititions = workout_form.repititions.data
-  workout_day = workout_form.time_to_do.data #date from datetime type
-  workout_time = workout_form.time.data #time 
+  same_workout = Workout.query.filter_by(name = workout_form.workout_name.data).first()
+  if same_workout != None:
+   flash('You already have a workout with this name')
+  else: #unique name
+
+   creator = current_user
+   workout = Workout()
+   workout.name = workout_form.workout_name.data
+   workout.exercise = workout_form.exercise.data
+   workout.repititions = workout_form.repititions.data
+   workout_day = workout_form.time_to_do.data #date from datetime type
+   workout_time = workout_form.time.data #time 
 
 
-  year = workout_day.year #get year
-  month = workout_day.month #get month
-  day = workout_day.day #get day
-  workout.time_to_do = date(year, month, day) #set the day in the database
+   year = workout_day.year #get year
+   month = workout_day.month #get month
+   day = workout_day.day #get day
+   workout.time_to_do = date(year, month, day) #set the day in the database
 
-  hour = workout_time.hour
-  minute = workout_time.minute
-  workout.time_workout = time(hour, minute)
+   hour = workout_time.hour
+   minute = workout_time.minute
+   workout.time_workout = time(hour, minute)
 
-  workout.creator_id = creator.id #current user id
+   workout.creator_id = creator.id #current user id
 
-  #add to the database
-  db.session.add(workout)
-  db.session.commit()
-
-  flash('Your workout has been created successfully')
+   #add to the database
+   db.session.add(workout)
+   db.session.commit()
+   flash('Your workout has been created successfully')
  return render_template('create_workout.html', workout_form = workout_form)
 
 
@@ -244,22 +250,22 @@ def add_nutrition():
   if food != ", " and food != " ":
    food_list.append(food)
 
- #for food in food_list:
- dup_nutrition_form = DuplicateNutrition() #needs a fieldlist for each food?
- if dup_nutrition_form.validate_on_submit():
-  #adding inputted nutrition information
-  for add_nutri in dup_nutrition_form.duplicate: 
-   print(type(add_nutri))
-   current_meal.meal_calories += add_nutri.food_calories.data
-   current_meal.meal_carbs += add_nutri.food_carbs.data
-   current_meal.meal_protien += add_nutri.food_protien.data
-   current_meal.meal_fat += add_nutri.food_fat.data
+ for food in food_list:
+  dup_nutrition_form = DuplicateNutrition() #needs a fieldlist for each food?
+  if dup_nutrition_form.validate_on_submit():
+   #adding inputted nutrition information
+   for add_nutri in dup_nutrition_form.duplicate: 
+    print(type(add_nutri))
+    current_meal.meal_calories += add_nutri.food_calories.data
+    current_meal.meal_carbs += add_nutri.food_carbs.data
+    current_meal.meal_protien += add_nutri.food_protien.data
+    current_meal.meal_fat += add_nutri.food_fat.data
 
-  db.session.add(current_meal)
-  db.session.commit()
-  flash('Nutrition information has been added successfully')
- else:
-  print('not valid')
+   db.session.add(current_meal)
+   db.session.commit()
+   flash('Nutrition information has been added successfully')
+  else:
+   print('not valid')
  return render_template('add_nutrition.html', food_list = food_list, dup_nutrition_form = dup_nutrition_form)
 
 #Justin
@@ -283,7 +289,38 @@ def view_workouts():
 @appObj.route('/editMeal/<meal_name>', methods = ["GET", "POST"])
 @login_required
 def edit_meal(meal_name):
- meal = Meal.query.filter_by(meal_name = meal_name).first()
+ creator = current_user
+ meal = Meal.query.filter_by(name = meal_name).first()
+ meal_form = EditMeal()
+ if meal_form.validate_on_submit():
+  meal_day = meal_form.time_to_eat.data #date from datetime type
+  meal_time = meal_form.time.data
+  year = meal_day.year #get year
+  month = meal_day.month #get month
+  day = meal_day.day #get day
+  meal.time_to_eat = date(year, month, day) #set the day in the database
+  hour = meal_time.hour
+  minute = meal_time.minute
+  meal.time_meal = time(hour, minute)
+
+  meal.creator_id = creator.id #current user id
+  #add to the database
+  db.session.add(meal)
+  db.session.commit()
+  flash('Your meal has been saved successfully') 
+
+ original_meal_day = meal.time_to_eat
+ original_meal_year = original_meal_day.year
+ original_meal_month = original_meal_day.month
+ original_meal_number_day = original_meal_day.day
+
+ original_meal_time = meal.time_meal
+ original_meal_hour = original_meal_time.hour
+ original_meal_minute = original_meal_time.minute
+
+ meal_form.time_to_eat.data = date(original_meal_year, original_meal_month, original_meal_number_day)
+ meal_form.time.data = time(original_meal_hour, original_meal_minute)
+ return render_template('edit_meal.html', meal_form = meal_form, meal = meal)
 
 #Justin
 @appObj.route('/editWorkout/<workoutID>', methods = ["GET", "POST"])
@@ -291,19 +328,16 @@ def edit_meal(meal_name):
 def edit_workout(workoutID):
 
  workout = Workout.query.filter_by(id = workoutID).first()
- if workout == None:
-  print("???")
  workout_form = CreateWorkout()
 
  #make and save edits
  if workout_form.validate_on_submit():
   creator = current_user
-  workout.name = workout_form.workout_name.data
   workout.exercise = workout_form.exercise.data
   workout.repititions = workout_form.repititions.data
   workout_day = workout_form.time_to_do.data #date from datetime type
-  workout_time = workout_form.time.data #time 
-  
+  workout_time = workout_form.time.data #time
+
 
   year = workout_day.year #get year
   month = workout_day.month #get month
@@ -336,7 +370,7 @@ def edit_workout(workoutID):
  workout_form.time_to_do.data = date(original_workout_year, original_workout_month, original_workout_number_day)
  workout_form.time.data = time(original_workout_hour, original_workout_minute)
  
- return render_template('edit_workout.html', workout_form = workout_form)
+ return render_template('edit_workout.html', workout_form = workout_form, workout = workout)
 
 @appObj.route('/testing1')
 def testing1():
