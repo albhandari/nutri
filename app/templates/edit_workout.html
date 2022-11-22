@@ -25,8 +25,8 @@
     <form action="" method="post" nonvalidate>
             {{workout_form.csrf_token}}
             <p>
-            {{workout_form.workout_name.label}}<br>
-            {{workout_form.workout_name(size = 32)}}</br>
+            Workout name<br>
+            {{workout.name}}</br>
             {{workout_form.exercise.label}}<br>
             {{workout_form.exercise(size = 32)}}</br>
             {{workout_form.repititions.label}}<br>
