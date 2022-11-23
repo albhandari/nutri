@@ -242,18 +242,16 @@ def create_meal():
    #add to the database
    db.session.add(meal)
    db.session.commit()
-   return redirect('/addFood')
+   flash('Your meal has been created successfully')
+   return redirect('/home')
  return render_template('create_meal.html', meal_form = meal_form)
 
 #Justin
-#cannot add nutrition to more than one food because
-#can't load more than one nutri form in the field list?
-@appObj.route('/addFood', methods = ["GET", "POST"])
+@appObj.route('/addFoodExisting/<mealID>', methods = ["GET", "POST"])
 @login_required
-def add_food():
+def add_food_existing(mealID):
  user = current_user
- all_meals = Meal.query.filter_by(creator_id = user.id).all()
- current_meal = all_meals[-1] #last added meal = the meal the user just made
+ current_meal = Meal.query.filter_by(id = mealID).first()
  food_form = AddFood()
  if food_form.validate_on_submit():
   current_meal.meal_item_names += food_form.name.data
