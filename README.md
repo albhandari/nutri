@@ -28,7 +28,7 @@ pip3 install git
 ```
 git clone https://github.com/albhandari/nutri
 ```
-- Move to the cmpe131Project directory using the following command (assuming you're in the home directory)
+- Move to the nutri directory using the following command (assuming you're in the home directory)
 ```
 cd nutri
 ```
