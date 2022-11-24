@@ -37,7 +37,6 @@ import urllib.request
 
 import os
 
-#Justin
 @appObj.route('/', methods = ['GET', 'POST'])
 def login():
  login_form = LoginUser()
@@ -53,13 +52,11 @@ def login():
    flash('Username does not exist. Please enter an existing username')
  return render_template('login.html', login_form = login_form)
 
-#Justin
-@appObj.route('/logout') #as of right now only included on home.html
+@appObj.route('/logout') 
 def logout():
  logout_user() #from flask_login
  return redirect(url_for('login'))
 
-#Justin
 @appObj.route('/createAccount', methods = ['GET', 'POST'])
 def createAccount():
   accountForm = CreateUser()
@@ -80,7 +77,7 @@ def createAccount():
       flash('Your account has been created successfully')
       return redirect('/')
     else:
-     flash('That username has been taken. Please try again')
+     flash('That username has been taken. Please try again') #no duplicate usernames
   return render_template('create_account.html', accountForm = accountForm)
 
 #Justin
@@ -117,20 +114,18 @@ def deleteAccount():
    flash("Please enter the correct username")
  return render_template('delete_user.html', accountForm = account_form)
 
-#Justin
 @appObj.route('/home') #home page
 @login_required
 def home():
  return render_template('home.html')
 
-#Justin
 @appObj.route('/profile', methods = ['GET', 'POST'])
 @login_required
 def profile():
  user = current_user
  edit_profile = EditUser()
  if edit_profile.validate_on_submit():
-  same_name = User.query.filter_by(username = edit_profile.username.data).first()
+  same_name = User.query.filter_by(username = edit_profile.username.data).first() #check for duplcate username after edit
   if same_name == None:
    user.username=edit_profile.username.data
    user.email=edit_profile.email.data
@@ -144,6 +139,7 @@ def profile():
   else:
    flash('That username already exists. Please try again')
 
+ #filling the intial form with user's current information
  edit_profile.username.data = user.username
  edit_profile.email.data = user.email
  edit_profile.weight.data = user.weight
@@ -151,7 +147,6 @@ def profile():
  edit_profile.user_bio.data = user.user_bio
  return render_template('user_profile.html', edit_profile = edit_profile)
 
-#Justin
 @appObj.route('/createWorkout', methods = ['GET', 'POST'])
 @login_required
 def create_workout():
@@ -159,7 +154,7 @@ def create_workout():
 
  if workout_form.validate_on_submit():
   creator = current_user
-  same_workout = Workout.query.filter_by(name = workout_form.workout_name.data, id = creator.id).first()
+  same_workout = Workout.query.filter_by(name = workout_form.workout_name.data, id = creator.id).first() #checking for duplicate workout with user id
   current_time = time(datetime.now().hour, datetime.now().minute)
   if same_workout != None:
    flash('You already have a workout with this name')
@@ -177,7 +172,6 @@ def create_workout():
    workout_day = workout_form.time_to_do.data #date from datetime type
    workout_time = workout_form.time.data #time 
 
-
    year = workout_day.year #get year
    month = workout_day.month #get month
    day = workout_day.day #get day
@@ -185,7 +179,7 @@ def create_workout():
 
    hour = workout_time.hour
    minute = workout_time.minute
-   workout.time_workout = time(hour, minute)
+   workout.time_workout = time(hour, minute) #set the time in the database
 
    workout.creator_id = creator.id #current user id
 
@@ -195,8 +189,6 @@ def create_workout():
    flash('Your workout has been created successfully')
  return render_template('create_workout.html', workout_form = workout_form)
 
-
-#Justin
 @appObj.route('/createMeal', methods = ['GET', 'POST'])
 @login_required
 def create_meal():
@@ -246,7 +238,6 @@ def create_meal():
    return redirect('/home')
  return render_template('create_meal.html', meal_form = meal_form)
 
-#Justin
 @appObj.route('/addFoodExisting/<mealID>', methods = ["GET", "POST"])
 @login_required
 def add_food_existing(mealID):
@@ -254,6 +245,7 @@ def add_food_existing(mealID):
  current_meal = Meal.query.filter_by(id = mealID).first()
  food_form = AddFood()
  if food_form.validate_on_submit():
+  #adding / calculating nutrition information
   current_meal.meal_item_names += food_form.name.data
   current_meal.meal_item_names += ", "
   current_meal.meal_calories += food_form.calories.data
@@ -266,7 +258,6 @@ def add_food_existing(mealID):
   return redirect(request.referrer)
  return render_template('add_food.html', food_form = food_form)
 
-#Justin
 @appObj.route('/viewMeals')
 @login_required
 def view_meals():
@@ -275,7 +266,6 @@ def view_meals():
  return render_template('view_meals.html', all_meals = all_meals)
 
 
-#Justin
 @appObj.route('/viewWorkouts')
 @login_required
 def view_workouts():
@@ -283,7 +273,6 @@ def view_workouts():
  all_workouts = Workout.query.filter_by(creator_id = user.id).all()
  return render_template('view_workouts.html', all_workouts = all_workouts)
 
-#Justin
 @appObj.route('/editMeal/<meal_name>', methods = ["GET", "POST"])
 @login_required
 def edit_meal(meal_name):
@@ -291,9 +280,9 @@ def edit_meal(meal_name):
  meal = Meal.query.filter_by(name = meal_name).first()
  meal_form = EditMeal()
  if meal_form.validate_on_submit():
-  if meal_form.time_to_eat.data < date.today(): #before today, not valid
+  if meal_form.time_to_eat.data < date.today(): #before current day, not valid
    flash('Invalid date. Please try again')
-  elif meal_form.time.data < time(datetime.now().hour, datetime.now().minute) and meal_form_time_to_eat.data == date.today():
+  elif meal_form.time.data < time(datetime.now().hour, datetime.now().minute) and meal_form_time_to_eat.data == date.today(): #current day, earlier time
    flash('Invalid time. Please try again')
   else:
    meal_day = meal_form.time_to_eat.data #date from datetime type
@@ -311,12 +300,14 @@ def edit_meal(meal_name):
    db.session.add(meal)
    db.session.commit()
    flash('Your meal has been saved successfully') 
-
- original_meal_day = meal.time_to_eat
+ 
+ #getting the original day to eat meal
+ original_meal_day = meal.time_to_eat 
  original_meal_year = original_meal_day.year
  original_meal_month = original_meal_day.month
  original_meal_number_day = original_meal_day.day
 
+ #getting the original time to eat meal
  original_meal_time = meal.time_meal
  original_meal_hour = original_meal_time.hour
  original_meal_minute = original_meal_time.minute
@@ -325,7 +316,7 @@ def edit_meal(meal_name):
  meal_form.time.data = time(original_meal_hour, original_meal_minute)
  return render_template('edit_meal.html', meal_form = meal_form, meal = meal)
 
-#Justin
+
 @appObj.route('/editWorkout/<workoutID>', methods = ["GET", "POST"])
 @login_required
 def edit_workout(workoutID):
@@ -337,7 +328,7 @@ def edit_workout(workoutID):
  if workout_form.validate_on_submit():
   if workout_form.time_to_do.data < date.today(): #before today, not valid
    flash('Invalid date. Please try again')
-  elif workout_form.time.data < time(datetime.now().hour, datetime.now().minute) and workout_form.time_to_data == date.today():
+  elif workout_form.time.data < time(datetime.now().hour, datetime.now().minute) and workout_form.time_to_data == date.today(): #current day, earlier time
    flash('Invalid time. Please try again')
   else:
    creator = current_user
@@ -362,10 +353,12 @@ def edit_workout(workoutID):
    db.session.commit()
    flash('Your workout has been saved successfully')
  
+ #getting original day and time to do workout
  original_workout_day = workout.time_to_do
  original_workout_year = original_workout_day.year
  original_workout_month = original_workout_day.month
  original_workout_number_day = original_workout_day.day
+ 
  original_workout_time = workout.time_workout
  original_workout_hour = original_workout_time.hour
  original_workout_minute = original_workout_time.minute
