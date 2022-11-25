@@ -26,8 +26,6 @@ from werkzeug.utils import secure_filename
 from app import db
 from app.models import User, Workout, Meal
 
-from app.add_to_meal import MealAdd
-
 from flask_login import login_user
 from flask_login import logout_user
 from flask_login import current_user
