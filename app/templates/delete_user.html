@@ -21,9 +21,28 @@
    {% endif %}
   {% endwith %}
 
+    <nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">YoFit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="/createMeal">Add Meal</a>
+        <a class="nav-link" href="/viewMeals">View Meals</a>
+        <a class="nav-link" href="/createWorkout">Add Workout</a>
+        <a class="nav-link" href="/viewWorkouts"> View Workouts </a>
+        <a class="nav-link" href="/profile">Profile</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
     <body style="background: #c6c6c6">
     <h2> <b> <u> YoFit - Delete your account</h2> </b> </u>
 
+    
     <form action =" " method ="post" nonvalidate> 
    {{accountForm.hidden_tag()}}
    <p>

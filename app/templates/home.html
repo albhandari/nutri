@@ -49,34 +49,23 @@
 
   <div class="b-example-divide style="border-color:black;"></div>
 
-  
-  <header class="p-3 mb-3 border-bottom" style= "background: #c6c6c6">
-    <div class="container p-3 mb-3" style="background: #c6c6c6"">
-     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"</div>
-        
-        <a href="/home" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-         <h1> <b> YoFit </b> </h1>
-        </a>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-         <li> <a class="btn btn-outline-dark m-2" href="/createMeal" role="button">Add meal</a> </li>
-         <li> <a class="btn btn-outline-dark m-2" href="/viewMeals" role="button">Edit meal</a> </li>
-         <li> <a class="btn btn-outline-dark m-2" href="/createWorkout" role="button">Add workout</a> </li>
-         <li> <a class="btn btn-outline-dark m-2" href="/viewWorkouts" role="button">Edit workout</a> </li>
-         <li> <a class="btn btn-outline-dark m-2" href="/profile" role="button"> Profile </a></li>
-         <li> <a class="btn btn-outline-dark m-2" href="deleteUser" role="button"> Delete Account </a></li>
-        </ul>
-        
-        <br>
-
-       </div>  
-     </div>
+  <nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">YoFit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="/createMeal">Add Meal</a>
+        <a class="nav-link" href="/viewMeals">View Meals</a>
+        <a class="nav-link" href="/createWorkout">Add Workout</a>
+        <a class="nav-link" href="/viewWorkouts"> View Workouts </a>
+        <a class="nav-link" href="/profile">Profile</a>
+      </div>
     </div>
-  
-  <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" </div>
-   <a class="btn btn-outline-danger m-2" href="{{url_for('logout')}}" role="button"> Logout </a>
-  
-  </header>
+  </div>
+</nav>
 
 <div class="p-3 mb-2">
  <h3> <b> <u> About YoFit </b> </u> </h3>

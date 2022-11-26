@@ -20,6 +20,24 @@
    {% endif %}
   {% endwith %}
 
+  <nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">YoFit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="/createMeal">Add Meal</a>
+        <a class="nav-link" href="/viewMeals">View Meals</a>
+        <a class="nav-link" href="/createWorkout">Add Workout</a>
+        <a class="nav-link" href="/viewWorkouts"> View Workouts </a>
+        <a class="nav-link" href="/profile">Profile</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
   <body style="background: #c6c6c6">
     <h2> <b> <u> yoFit - Edit Profile</h2> </b> </u>
     <form action="" method="post" nonvalidate>
@@ -41,6 +59,8 @@
         </form>
      <p> <a class="btn btn-outline-dark" href="/viewMeals" role="button">Your meals </a> </p>
      <p> <a class="btn btn-outline-dark" href="/viewWorkouts" role="button">Your workouts </a> </p>
+     <p> <a class="btn btn-outline-dark" href="/logout" role="button">Logout </a> </p>
+     <p> <a class="btn btn-outline-danger" href="/deleteUser" role="button">Delete Account </a> </p>
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
   </body>
