@@ -243,17 +243,24 @@ def add_food_existing(mealID):
  current_meal = Meal.query.filter_by(id = mealID).first()
  food_form = AddFood()
  if food_form.validate_on_submit():
+  for field in food_form:
+   if field.data == None:
+    field.data = 0
+
   #adding / calculating nutrition information
-  current_meal.meal_item_names += food_form.name.data
-  current_meal.meal_item_names += ", "
-  current_meal.meal_calories += food_form.calories.data
-  current_meal.meal_carbs += food_form.carbs.data
-  current_meal.meal_protien += food_form.protien.data
-  current_meal.meal_fat += food_form.fat.data
-  db.session.add(current_meal)
-  db.session.commit()
-  flash('Food has been added to meal.')
-  return redirect(request.referrer)
+  if food_form.calories.data < 0 or food_form.carbs.data < 0 or food_form.protien.data < 0 or food_form.fat.data < 0:
+   flash('You cannot enter negative values. Please try again')
+  else:
+   current_meal.meal_item_names += food_form.name.data
+   current_meal.meal_item_names += ", "
+   current_meal.meal_calories += food_form.calories.data
+   current_meal.meal_carbs += food_form.carbs.data
+   current_meal.meal_protien += food_form.protien.data
+   current_meal.meal_fat += food_form.fat.data
+   db.session.add(current_meal)
+   db.session.commit()
+   flash('Food has been added to meal.')
+   return redirect(request.referrer) #reload the page 
  return render_template('add_food.html', food_form = food_form)
 
 @appObj.route('/viewMeals')
@@ -271,11 +278,11 @@ def view_workouts():
  all_workouts = Workout.query.filter_by(creator_id = user.id).all()
  return render_template('view_workouts.html', all_workouts = all_workouts)
 
-@appObj.route('/editMeal/<meal_name>', methods = ["GET", "POST"])
+@appObj.route('/editMeal/<mealID>', methods = ["GET", "POST"])
 @login_required
-def edit_meal(meal_name):
+def edit_meal(mealID):
  creator = current_user
- meal = Meal.query.filter_by(name = meal_name).first()
+ meal = Meal.query.filter_by(id = mealID).first()
  meal_form = EditMeal()
  if meal_form.validate_on_submit():
   if meal_form.time_to_eat.data < date.today(): #before current day, not valid
