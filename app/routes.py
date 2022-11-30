@@ -377,6 +377,21 @@ def edit_workout(workoutID):
  
  return render_template('edit_workout.html', workout_form = workout_form, workout = workout)
 
-@appObj.route('/testing1')
+#@appObj.route('/testing1')
+#def testing1():
+#  return render_template('testing.html');
+
+@appObj.route('/testing1', methods = ['GET', 'POST'])
 def testing1():
-  return render_template('testing.html');
+ login_form = LoginUser()
+ if login_form.validate_on_submit():
+  user = User.query.filter_by(username = login_form.username.data).first()
+  if user != None:
+   if user.check_password(login_form.password.data) == True:
+    login_user(user)
+    return redirect(url_for('home'))
+   else:
+    flash('Incorrect password. Please try again.')
+  else:
+   flash('Username does not exist. Please enter an existing username')
+ return render_template('testing.html', login_form = login_form)
