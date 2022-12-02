@@ -28,6 +28,9 @@
             <div class="card-header">
               Login
             </div>
+            <p style="margin-bottom: 10px;">
+                    
+            </p>
             <form method = "POST" novalidate>
                 {{login_form.csrf_token}}
                 {{ login_form.hidden_tag() }}
@@ -46,6 +49,8 @@
                 
             
             </form>
+
+            <p>Don't have an account? <a href="/createAccount">Sign up Here</a></p>
         </div>
         
     

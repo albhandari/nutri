@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/createacc.css') }}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -12,6 +12,12 @@
 
     <title>YoFit - Create Account</title>
   </head>
+
+  <header>
+    <ul>
+        <li><a class="active" href="/">YoFit</a></li>
+    </ul>
+    </header>
 
    {% with messages = get_flashed_messages() %}
    {% if messages %}
@@ -21,29 +27,55 @@
    {% endif %}
   {% endwith %}
 
-  <body style="background: #c6c6c6">
-    <h2> <b> <u> yoFit - Create your account</h2> </b> </u>
-    <form action="" method="post" nonvalidate> 
-            {{accountForm.csrf_token}}
-            <p>
-            {{accountForm.username.label}}<br>
-            {{accountForm.username(size = 32)}}</br>
-            {{accountForm.email.label}}<br>
-            {{accountForm.email(size = 32)}}</br>
-            {{accountForm.password.label}}<br>
-            {{accountForm.password(size = 32)}}</br>
-            {{accountForm.weight.label}}<br>
-            {{accountForm.weight}} </br>
-            {{accountForm.user_bio.label}} <br>
-            {{accountForm.user_bio}} </br>
-            {{accountForm.fitness_goal.label}} <br>
-            {{accountForm.fitness_goal}} </br>
+  <body>
+    <div class="shadow p-3 mb-5 bg-info bg-opacity-50 rounded mx-auto" style="width: 400px;">
+        <div class="card text-center" style ="width: 100%; padding: 5px">
+            <div class="card-header">
+              Create An Account!
+            </div>
+            <p style="margin-bottom: 10px;">
+                    
+            </p>
+            <form method = "POST" novalidate>
+                {{accountForm.csrf_token}}
+                {{ accountForm.hidden_tag() }}
+            
+                <p>
+                    {{accountForm.username.label}}
+                    {{accountForm.username(size = 32)}}
+                </p>
+                <p>
+                    {{accountForm.email.label}}
+                    {{accountForm.email(size = 32)}}
+                </p>
+                <p>
+                    {{accountForm.password.label}}
+                    {{accountForm.password(size = 32)}}
+                </p>
+                <p>
+                    {{accountForm.weight.label}}
+                    {{accountForm.weight}}
+                </p>
+                <p>
+                    {{accountForm.user_bio.label}}
+                    {{accountForm.user_bio}}
+                </p>
 
-            </p>
-            <p>
-            {{accountForm.submit()}}
-            </p>
-        </form>
+                <p>
+                    {{accountForm.fitness_goal.label}}
+                    {{accountForm.fitness_goal}}
+                </p>
+
+                <p style="padding-top: 15px;">
+                    {{accountForm.submit()}}
+                </p>
+                
+            </form>
+
+        </div>
+        
+    
+    </div>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
