@@ -37,7 +37,7 @@ class Meal(db.Model):
  creator_id = db.Column(db.Integer, db.ForeignKey(User.id))
  meal_calories = db.Column(db.Float)
  meal_carbs = db.Column(db.Float)
- meal_protien = db.Column(db.Float)
+ meal_protien = db.Column(db.Float) #spell mischeck- incase there is a bug later
  meal_fat = db.Column(db.Float)
 
 @login.user_loader
