@@ -48,8 +48,10 @@
               <div class="card" style ="min-width: 250px;">
                 <div class="card-body">
                   <h5 class="card-title">{{meal.name}}</h5>
-                  <p class="card-text">Total carbs: 100g</p>
-                  <p class="card-text">Total protein: 80g</p>
+                  <p class = "card-text"> Total Calories: {{meal.meal_calories}} </p>
+                  <p class="card-text">Total carbs: {{meal.meal_carbs}}</p>
+                  <p class="card-text">Total protein: {{meal.meal_protien}}</p>
+                  <p class="card-text"> Total fat: {{meal.meal_fat}} </p>
                   <a href="/editMeal/{{meal.id}}" class="btn btn-primary">Edit Meal</a>
                 </div>
               </div>
