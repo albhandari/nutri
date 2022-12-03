@@ -115,7 +115,10 @@ def deleteAccount():
 @appObj.route('/home') #home page
 @login_required
 def home():
- return render_template('home.html')
+ user = current_user
+ all_workouts = Workout.query.filter_by(creator_id = user.id).all()
+ all_meals = Meal.query.filter_by(creator_id = user.id).all()
+ return render_template('home.html', all_meals = all_meals, all_workouts = all_workouts)
 
 @appObj.route('/profile', methods = ['GET', 'POST'])
 @login_required
@@ -381,25 +384,11 @@ def edit_workout(workoutID):
 #def testing1():
 #  return render_template('testing.html');
 
-@appObj.route('/testing1', methods = ['GET', 'POST'])
+@appObj.route('/testing1')
+@login_required
 def testing1():
-  accountForm = CreateUser()
-  if accountForm.validate_on_submit():
-    same_name = User.query.filter_by(username = accountForm.username.data).first()
-    if same_name == None:
-      user=User()
-      user.username=accountForm.username.data
-      user.email=accountForm.email.data
-      user.set_password(accountForm.password.data)
-      user.weight = accountForm.weight.data
-      user.fitness_goal = accountForm.fitness_goal.data
-      user.user_bio = accountForm.user_bio.data
-      #add to the database
-      db.session.add(user)
-      db.session.commit()
-      #take the user back to login screen so they can log in with their new account
-      flash('Your account has been created successfully')
-      return redirect('/')
-    else:
-     flash('That username has been taken. Please try again') #no duplicate usernames
-  return render_template('testing.html', accountForm = accountForm)
+
+  user = current_user
+  all_workouts = Workout.query.filter_by(creator_id = user.id).all()
+  all_meals = Meal.query.filter_by(creator_id = user.id).all()
+  return render_template('testing.html', all_meals = all_meals, all_workouts = all_workouts)
