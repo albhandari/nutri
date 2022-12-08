@@ -356,7 +356,7 @@ def edit_meal(mealID):
  if meal_form.validate_on_submit():
   if meal_form.time_to_eat.data < date.today(): #before current day, not valid
    flash('Invalid date. Please try again')
-  elif meal_form.time.data < time(datetime.now().hour, datetime.now().minute) and meal_form_time_to_eat.data == date.today(): #current day, earlier time
+  elif meal_form.time.data < time(datetime.now().hour, datetime.now().minute) and meal_form.time_to_eat.data == date.today(): #current day, earlier time
    flash('Invalid time. Please try again')
   else:
    meal_day = meal_form.time_to_eat.data #date from datetime type

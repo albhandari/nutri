@@ -19,14 +19,17 @@
       </ul>
 </header>
 
-<body>
   {% with messages = get_flashed_messages() %}
-   {% if messages %}
-    {% for message in messages %}
-     <p> {{message}} </p>
-    {% endfor %}
-   {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-primary" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
   {% endwith %}
+
+<body>
 
 
   <div class="card" style = "width: 100%; background:rgba(255, 255, 255, 0.6); margin-top: -17px;">

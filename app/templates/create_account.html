@@ -19,13 +19,15 @@
     </ul>
     </header>
 
-   {% with messages = get_flashed_messages() %}
-   {% if messages %}
-    {% for message in messages %}
-     <p> {{message}} </p>
-    {% endfor %}
-   {% endif %}
-  {% endwith %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-primary" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
   <body>
     <div class="shadow p-3 mb-5 bg-info bg-opacity-50 rounded mx-auto" style="width: 400px;">

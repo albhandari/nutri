@@ -7,6 +7,6 @@ class EditUser(FlaskForm):
     username = StringField('Username', validators = [DataRequired(),Length(min=3, max=32)])
     email = StringField ('Email', validators = [DataRequired()])
     weight = FloatField('Weight', validators = [DataRequired()])
-    user_bio = StringField('Bio / Description', validators = [DataRequired(), Length(min = 3, max = 1024)])
+    user_bio = StringField('Bio', validators = [DataRequired(), Length(min = 3, max = 1024)])
     fitness_goal = StringField('Fitness Goal', validators = [DataRequired(), Length(min = 3, max = 1024)])
     submit = SubmitField('Save Information')
