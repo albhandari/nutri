@@ -271,7 +271,29 @@ def add_food_existing(mealID):
 def view_meals():
  user = current_user
  all_meals = Meal.query.filter_by(creator_id = user.id).all()
- return render_template('view_meals.html', all_meals = all_meals)
+ current = 0;
+ total_calories = 0;
+ total_carbs = 0;
+ total_protein = 0;
+ total_fat = 0;
+
+
+ for meal in all_meals:
+  if(current < 3):
+    total_calories = total_calories + meal.meal_calories
+    total_carbs = total_carbs + meal.meal_carbs
+    total_protein = total_protein + meal.meal_protien
+    total_fat = total_fat + meal.meal_fat
+    current = current +1
+  else:
+    break
+  
+  calPer = (total_calories/2500) * 100
+  carPer = (total_carbs / 1250) * 100
+  proPer = (total_protein / 80) * 100
+  fatPer = (total_fat / 97) * 100
+
+ return render_template('view_meals.html',fatPer = fatPer,proPer = proPer,carPer = carPer ,calPer = calPer, all_meals = all_meals, cal= total_calories, carb = total_carbs, pro= total_protein, fat = total_fat)
 
 
 @appObj.route('/viewWorkouts')
@@ -279,7 +301,51 @@ def view_meals():
 def view_workouts():
  user = current_user
  all_workouts = Workout.query.filter_by(creator_id = user.id).all()
- return render_template('view_workouts.html', all_workouts = all_workouts)
+ current = 0;
+ wo1 = "";
+ wo2 = "";
+ wo3 = "";
+
+ rep1 = 0;
+ rep2 = 0;
+ rep3 = 0;
+
+ per1 = 0;
+ per2 = 0;
+ per3 = 0;
+
+ total = 0;
+
+
+ for workout in all_workouts:
+  if(current < 3):
+    if(current == 0):
+      wo1 = workout.exercise
+      rep1 = workout.repititions
+      total = total + rep1
+    elif(current == 1):
+      wo2 = workout.exercise
+      rep2 = workout.repititions
+      total = total + rep2
+    elif(current == 2):
+      wo3 = workout.exercise
+      rep3 = workout.repititions
+      total = total + rep3
+    
+    current = current + 1;
+  else:
+    break
+  
+  total = rep1 + rep2 + rep3
+
+  per1 = (((rep1 / total)) * 100)
+  per2 = ((rep2 / total) * 100)
+  per3 = ((rep3 / total) * 100)
+
+
+    
+
+ return render_template('view_workouts.html', all_workouts = all_workouts, wo1= wo1, wo2 = wo2, wo3 = wo3, rep1 = rep1, rep2 = rep2, rep3 = rep3, per1 = per1, per2 = per2, per3 = per3)
 
 @appObj.route('/editMeal/<mealID>', methods = ["GET", "POST"])
 @login_required

@@ -29,7 +29,7 @@
   {% endwith %}
 
 
-  <div class="card" style = "width: 100%; background:rgba(255, 255, 255, 0.6);">
+  <div class="card" style = "width: 100%; background:rgba(255, 255, 255, 0.6); margin-top: -17px;">
     <div class="card-header" style = "background:rgb(235, 233, 233);">
       View Meals
     </div>
@@ -50,6 +50,39 @@
             </div>
             {% endfor %}
           </div>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  
+
+  <div class="card" style = "width: 100%; background:rgba(255, 255, 255, 0.6);">
+    <div class="card-header" style = "background:rgb(235, 233, 233);">
+      Total Nutrient Contents in Last 3 Meals
+    </div>
+    <div class="card-body" style = "background:rgba(0,0,0,0);">
+        <div class="row" style = "background:rgba(0,0,0,0);">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{calPer}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Total Calories: {{cal}}</div>
+          </div>
+          <br>
+          <br>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{carPer}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Total Carbs: {{carb}}</div>
+          </div>
+          <br>
+          <br>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{proPer}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Total Protein: {{pro}}</div>
+          </div>
+
+          <br>
+          <br>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{fatPer}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Total Fat: {{fat}}</div>
+          </div>
+          
     </div>
   </div>
 

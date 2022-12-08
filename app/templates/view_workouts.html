@@ -1,50 +1,83 @@
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/viewworkout.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin=>
 
+<header>
+    <ul>
+        <li><a class="active" href="/home">YoFit</a></li>
+        <li><a class="active" href="/createMeal">Add Meal</a></li>
+        <li><a class="active" href="/viewMeals">View Meals</a></li>
+        <li><a class="active" href="/createWorkout">Add Workout</a></li>
+        <li><a class="active" href="/viewWorkouts">View Workouts</a></li>
+        <li><a class="active" href="/profile">Profile</a></li>
+      </ul>
+</header>
 
-
-    <title>YoFit - Edit workouts</title>
-  </head>
-
-   {% with messages = get_flashed_messages() %}
+<body>
+  {% with messages = get_flashed_messages() %}
    {% if messages %}
     {% for message in messages %}
      <p> {{message}} </p>
     {% endfor %}
    {% endif %}
   {% endwith %}
-  <nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/home">YoFit</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/createMeal">Add Meal</a>
-        <a class="nav-link" href="/viewMeals">View Meals</a>
-        <a class="nav-link" href="/createWorkout">Add Workout</a>
-        <a class="nav-link" href="/viewWorkouts"> View Workouts </a>
-        <a class="nav-link" href="/profile">Profile</a>
-      </div>
+
+
+  <div class="card" style = "width: 100%; background:rgba(255, 255, 255, 0.6); margin-top: -17px;">
+    <div class="card-header" style = "background:rgb(235, 233, 233);">
+      View Workouts
+    </div>
+    <div class="card-body" style = "background:rgba(0,0,0,0);">
+        <div class="row" style = "background:rgba(0,0,0,0);">
+            {% for workout in all_workouts %}
+            <div class="col-sm-6" style = "background:rgba(0,0,0,0); width: fit-content;">
+              <div class="card" style ="min-width: 250px;">
+                <div class="card-body">
+                  <h5 class="card-title">{{workout.name}}</h5>
+                  <p class = "card-text"> {{workout.exercise}}: {{workout.repititions}} reps!</p>
+                  <a href="/editWorkout/{{workout.id}}" class="btn btn-primary">Edit Workout</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
     </div>
   </div>
-</nav>
 
-  <body style="background: #c6c6c6">
-    <h2> <b> <u> yoFit - Edit workouts</h2> </b> </u>
-     {%for workout in all_workouts %}
-       <p> {{workout.name}} </p>
-       <p> <a class="btn btn-outline-dark" href="/editWorkout/{{workout.id}}" role="button">Edit </a> </p>
-     {% endfor %}
+  <br>
+  <br>
+  
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-  </body>
+  <div class="card" style = "width: 100%; background:rgba(255, 255, 255, 0.6);">
+    <div class="card-header" style = "background:rgb(235, 233, 233);">
+      Last Three Workouts Statistics:
+    </div>
+    <div class="card-body" style = "background:rgba(0,0,0,0);">
+        <div class="row" style = "background:rgba(0,0,0,0);">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{per1}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{wo1}} reps: {{rep1}}</div>
+          </div>
+          <br>
+          <br>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{per2}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{wo2}} reps: {{rep2}}</div>
+          </div>
+          <br>
+          <br>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{per3}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{wo3}} reps: {{rep3}}</div>
+          </div>
+          
+    </div>
+  </div>
+
+
+</body>
 </html>
+
