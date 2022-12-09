@@ -18,11 +18,12 @@ enter meals and workouts and plan their fitness routine.
 - To install these technologies, use the following commands on the Linux terminal
 ```
 sudo apt-get install python3 (do this first)
+sudo apt install python3-pip3
 pip3 install flask
 pip3 install flask-login
 pip3 install flask-sqlalchemy
 pip3 install flask-wtf
-pip3 install git
+sudo apt install git
 ```
 - Clone the project repository using the following command
 ```
