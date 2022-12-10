@@ -38,6 +38,11 @@ cd nutri
 python3 run.py
 ```
 
+## How to use YoFit
+- You can create an account like the following exmaple:
+![createA](https://user-images.githubusercontent.com/99459474/206875822-42103097-45d7-46e5-b011-6af2b2f0baac.PNG)
+
+
 ## Credits
 - Alex Bhandari 
 - Mai Vo Xuan Tran
