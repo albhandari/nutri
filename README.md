@@ -39,8 +39,20 @@ python3 run.py
 ```
 
 ## How to use YoFit
-- You can create an account like the following exmaple:
-![createA](https://user-images.githubusercontent.com/99459474/206875822-42103097-45d7-46e5-b011-6af2b2f0baac.PNG)
+- Once you have created an account, you will be able to create meals and workouts. Here is some sample data to get you started
+
+- Meal Sample Data
+  - Meal Name: "Breakfast1"
+  - Meal Type: "Breakfast"
+  - Date to eat meal: "1/01/2024"
+  - Time to eat meal: "9:00 AM"
+
+- Workout Sample Data
+  - Workout Name: "Workout1"
+  - Exercise: "PushUps"
+  - Repetitions: "20"
+  - Date to do workout: "1/01/2024"
+  - Time to eat meal: "10:00 AM"
 
 
 ## Credits
