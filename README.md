@@ -42,17 +42,24 @@ python3 run.py
 - Once you have created an account, you will be able to create meals and workouts. Here is some sample data to get you started
 
 - Meal Sample Data
-  - Meal Name: "Breakfast1"
-  - Meal Type: "Breakfast"
-  - Date to eat meal: "1/01/2024"
-  - Time to eat meal: "9:00 AM"
+  - Meal Name: Breakfast1
+  - Meal Type: Breakfast
+  - Date to eat meal: 1/01/2024
+  - Time to eat meal: 9:00 AM
 
+- Food Sample Data (Select "Add Food" in meal viewing)
+  - Food Name: Pizza
+  - Calories: 300
+  - Carbohydrates: 30.5
+  - Protein: 12.2
+  - Fat: 10.4
+ 
 - Workout Sample Data
-  - Workout Name: "Workout1"
-  - Exercise: "PushUps"
-  - Repetitions: "20"
-  - Date to do workout: "1/01/2024"
-  - Time to eat meal: "10:00 AM"
+  - Workout Name: Workout1
+  - Exercise: PushUps
+  - Repetitions: 20
+  - Date to do workout: 1/01/2024
+  - Time to eat meal: 10:00 AM
 
 
 ## Credits
