@@ -10,4 +10,4 @@ class EditWorkout(FlaskForm):
  repititions = IntegerField('Number of Repititions', validators = [DataRequired()])
  time_to_do = DateField('Day to eat meal', format = '%Y-%m-%d', validators = [DataRequired()])
  time = TimeField('Time to eat meal', format = '%H:%M', validators = [DataRequired()])
- submit = SubmitField('Save Meal')
+ submit = SubmitField('Save Workout')
