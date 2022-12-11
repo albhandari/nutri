@@ -12,6 +12,7 @@ from app.create_meal import CreateMeal
 from app.edit_meal import EditMeal
 from app.edit_user import EditUser
 from app.add_food import AddFood
+from app.edit_workout import EditWorkout
 
 from wtforms import SubmitField, FieldList
 
@@ -128,6 +129,16 @@ def profile():
  if edit_profile.validate_on_submit():
   same_name = User.query.filter_by(username = edit_profile.username.data).first() #check for duplcate username after edit
   if same_name == None:
+   user.username=edit_profile.username.data
+   user.email=edit_profile.email.data
+   user.weight = edit_profile.weight.data
+   user.fitness_goal = edit_profile.fitness_goal.data
+   user.user_bio = edit_profile.user_bio.data
+   #add to the database
+   db.session.add(user)
+   db.session.commit()
+   flash ('Your information has been updated successfully')
+  elif same_name != None and user.username == edit_profile.username.data: #did not change username
    user.username=edit_profile.username.data
    user.email=edit_profile.email.data
    user.weight = edit_profile.weight.data
@@ -396,7 +407,7 @@ def edit_meal(mealID):
 def edit_workout(workoutID):
 
  workout = Workout.query.filter_by(id = workoutID).first()
- workout_form = CreateWorkout()
+ workout_form = EditWorkout()
 
  #make and save edits
  if workout_form.validate_on_submit():
@@ -438,7 +449,6 @@ def edit_workout(workoutID):
  original_workout_minute = original_workout_time.minute
 
  #create workout form whose values are already the workout values
- workout_form.workout_name.data = workout.name
  workout_form.exercise.data = workout.exercise
  workout_form.repititions.data = workout.repititions
  workout_form.time_to_do.data = date(original_workout_year, original_workout_month, original_workout_number_day)
@@ -446,15 +456,5 @@ def edit_workout(workoutID):
  
  return render_template('edit_workout.html', workout_form = workout_form, workout = workout)
 
-#@appObj.route('/testing1')
-#def testing1():
-#  return render_template('testing.html');
 
-@appObj.route('/testing1')
-@login_required
-def testing1():
 
-  user = current_user
-  all_workouts = Workout.query.filter_by(creator_id = user.id).all()
-  all_meals = Meal.query.filter_by(creator_id = user.id).all()
-  return render_template('testing.html', all_meals = all_meals, all_workouts = all_workouts)
