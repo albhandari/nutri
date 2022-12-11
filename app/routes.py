@@ -172,7 +172,7 @@ def create_workout():
 
  if workout_form.validate_on_submit():
   creator = current_user
-  same_workout = Workout.query.filter_by(name = workout_form.workout_name.data, id = creator.id).first() #checking for duplicate workout with user id
+  same_workout = Workout.query.filter_by(name = workout_form.workout_name.data, creator_id = creator.id).first() #checking for duplicate workout with user id
   current_time = time(datetime.now().hour, datetime.now().minute)
   if same_workout != None:
    flash('You already have a workout with this name')
@@ -216,7 +216,7 @@ def create_meal():
 
  if meal_form.validate_on_submit():
   creator = current_user
-  same_meal = Meal.query.filter_by(name = meal_form.meal_name.data, id = creator.id).first()
+  same_meal = Meal.query.filter_by(name = meal_form.meal_name.data, creator_id = creator.id).first()
   current_time = time(datetime.now().hour, datetime.now().minute)
   if same_meal != None:
    flash('You already have a meal with this name')
