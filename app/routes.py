@@ -131,20 +131,18 @@ def profile():
  user = current_user
  edit_profile = EditUser()
  if edit_profile.validate_on_submit():
-  same_name = User.query.filter_by(username = edit_profile.username.data).first() #check for duplcate username after edit
-  if same_name == None:
-   user.username=edit_profile.username.data
-   user.email=edit_profile.email.data
-   user.weight = edit_profile.weight.data
-   user.fitness_goal = edit_profile.fitness_goal.data
-   user.user_bio = edit_profile.user_bio.data
-   #add to the database
-   db.session.add(user)
-   db.session.commit()
-   flash ('Your information has been updated successfully')
-  else:
-   flash('That username already exists. Please try again')
-
+  #same_name = User.query.filter_by(username = edit_profile.username.data).first() #check for duplcate username after edit
+  #if same_name == None:
+  user.username=edit_profile.username.data
+  user.email=edit_profile.email.data
+  user.weight = edit_profile.weight.data
+  user.fitness_goal = edit_profile.fitness_goal.data
+  user.user_bio = edit_profile.user_bio.data
+  #add to the database
+  db.session.add(user)
+  db.session.commit()
+  flash ('Your information has been updated successfully')
+ 
  #filling the intial form with user's current information
  edit_profile.username.data = user.username
  edit_profile.email.data = user.email
