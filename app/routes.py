@@ -428,7 +428,7 @@ def edit_workout(workoutID):
  if workout_form.validate_on_submit():
   if workout_form.time_to_do.data < date.today(): #before today, not valid
    flash('Invalid date. Please try again')
-  elif workout_form.time.data < time(datetime.now().hour, datetime.now().minute) and workout_form.time_to_data == date.today(): #current day, earlier time
+  elif workout_form.time.data < time(datetime.now().hour, datetime.now().minute) and workout_form.time_to_do.data == date.today(): #current day, earlier time
    flash('Invalid time. Please try again')
   else:
    creator = current_user
