@@ -18,11 +18,12 @@ enter meals and workouts and plan their fitness routine.
 - To install these technologies, use the following commands on the Linux terminal
 ```
 sudo apt-get install python3 (do this first)
+sudo apt install python3-pip3
 pip3 install flask
 pip3 install flask-login
 pip3 install flask-sqlalchemy
 pip3 install flask-wtf
-pip3 install git
+sudo apt install git
 ```
 - Clone the project repository using the following command
 ```
@@ -36,6 +37,30 @@ cd nutri
 ```
 python3 run.py
 ```
+
+## How to use YoFit
+- Once you have created an account, you will be able to create meals and workouts. Here is some sample data to get you started
+
+- Meal Sample Data
+  - Meal Name: Breakfast1
+  - Meal Type: Breakfast
+  - Date to eat meal: 1/01/2024
+  - Time to eat meal: 9:00 AM
+
+- Food Sample Data (Select "Add Food" in meal viewing)
+  - Food Name: Pizza
+  - Calories: 300
+  - Carbohydrates: 30.5
+  - Protein: 12.2
+  - Fat: 10.4
+ 
+- Workout Sample Data
+  - Workout Name: Workout1
+  - Exercise: PushUps
+  - Repetitions: 20
+  - Date to do workout: 1/01/2024
+  - Time to eat meal: 10:00 AM
+
 
 ## Credits
 - Alex Bhandari 

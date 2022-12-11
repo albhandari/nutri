@@ -6,7 +6,7 @@ from wtforms.fields import DateField, TimeField
 from datetime import date, time
 
 class CreateMeal(FlaskForm):
- meal_name = StringField('Meal Name', validators = [DataRequired(), Length(min = 3, max = 32)])
+ meal_name = StringField('Meal Name', validators = [DataRequired(), Length(min = 3, max = 32)], render_kw={"placeholder": "Ex: yofit, between 3 and 32 characters"})
  time_to_eat = DateField('Day to eat meal', format = '%Y-%m-%d', validators = [DataRequired()])
  time = TimeField('Time to eat meal', format = '%H:%M', validators = [DataRequired()])
  submit = SubmitField('Save Meal')
